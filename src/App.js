@@ -23,7 +23,7 @@ function App() {
     return (
         <div className="App">
             <ImageContainer imageData={data}/>
-            <ControlContainer imageData={data} getDateString={getDateString} setDate={setDate}/>
+            <ControlContainer imageData={data} getDateString={getDateString} date={date} setDate={setDate}/>
         </div>
     );
 }

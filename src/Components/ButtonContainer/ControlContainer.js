@@ -1,7 +1,9 @@
-import React from 'react';
+import React, {useState} from 'react';
 import "./ControlContainer.css";
 
 const ControlContainer = props => {
+
+    const [currentDay, setCurrentDay] = useState(props.date);//todo: make an infinite backwards/yesterday. Instead of just being able to see yesterday, make it just keep going back
 
     const setDateYesterday = () => {
         let yesterday = new Date();
