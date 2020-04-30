@@ -4,12 +4,16 @@ import ImageContainer from "./Components/ImageContainer/ImageContainer";
 import ControlContainer from "./Components/ButtonContainer/ControlContainer";
 import axios from "axios";
 
+import 'bootstrap/dist/css/bootstrap.min.css';
+import {Alert} from "reactstrap";
+
 function App() {
     //get today in string form for our api request
     let now = getDateString(new Date());//get today so we can use it in our api call. This is needed for getting past images.
 
     const [data, setData] = useState({});
     const [date, setDate] = useState(now);
+    const [allImages, setAllImages] = useState({});
     console.log(date);
 
     useEffect(() => {
