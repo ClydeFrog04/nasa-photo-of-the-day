@@ -6,6 +6,7 @@ import axios from "axios";
 
 import 'bootstrap/dist/css/bootstrap.min.css';
 import {Alert} from "reactstrap";
+import ImageCarousel from "./Components/ImageContainer/ImageCarousel";
 
 function App() {
     //get today in string form for our api request
@@ -27,6 +28,7 @@ function App() {
     return (
         <div className="App">
             <ImageContainer imageData={data}/>
+            <ImageCarousel imageData={data} date={date}/>
             <ControlContainer imageData={data} getDateString={getDateString} date={date} setDate={setDate}/>
         </div>
     );
