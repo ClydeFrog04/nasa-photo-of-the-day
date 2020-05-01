@@ -11,24 +11,28 @@ import ImageCarousel from "./Components/ImageContainer/ImageCarousel";
 function App() {
     //get today in string form for our api request
     let now = getDateString(new Date());//get today so we can use it in our api call. This is needed for getting past images.
+    let pastDate = new Date();
+    pastDate.setTime(pastDate.getTime() - (7*24*3600000));
+    pastDate = getDateString(pastDate);
 
     const [data, setData] = useState({});
     const [date, setDate] = useState(now);
-    const [allImages, setAllImages] = useState([]);
 
 
     useEffect(() => {
-        axios.get(`https://api.nasa.gov/planetary/apod?api_key=5iNRyKec6ymBvSVBqVEre4Z4dEA9EMWe3HUMg5dg&date=${date}`)
+        axios.get(`https://api.nasa.gov/planetary/apod?api_key=5iNRyKec6ymBvSVBqVEre4Z4dEA9EMWe3HUMg5dg&start_date=${pastDate}&end_date=${now}`)
             .then(response => {
                 setData(response.data);
             })
             .catch(console.log);
     }, [date]);
 
+    console.log("Data: ", data);
+
     return (
         <div className="App">
             {/*<ImageContainer imageData={data}/>*/}
-            <ImageCarousel imageData={data} allImages={allImages} setAllImages={setAllImages}/>
+            <ImageCarousel imageData={data}/>
             <ControlContainer imageData={data} getDateString={getDateString} date={date} setDate={setDate}/>
         </div>
     );
