@@ -33,7 +33,7 @@ export default function ImageCarousel(props) {
         console.log("Place holder: ", placeholder);
         props.setAllImages(placeholder);
     }
-    
+
     //create an object the reactstrap carousel can use
     const singleImage = {
         src: props.imageData.url,
