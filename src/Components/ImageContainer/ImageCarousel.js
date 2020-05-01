@@ -10,36 +10,48 @@ import {
     CarouselControl
 } from "reactstrap";
 
+import styled from "styled-components";
+
+const StyledImg = styled.img`
+  max-width: 90%;
+`;
+
 export default function ImageCarousel(props) {
     //set up state
     const [activeIndex, setActiveIndex] = useState(0);
     const [animating, setAnimating] = useState(false);
-    const [images, setImages] = useState([]);
-
-    //todo: this logic belongs to addImageToState; Refactoring + newTopic = messyCode :]
-    const singleImage = {
-        src: "https://www.rover.com/blog/wp-content/uploads/2019/11/schafer-dog-4357790_1920.jpg",
-        altText: "doggo",
-        caption: "doggo",
-    };
-    const placeholder = images;
-    placeholder.push(singleImage);
-    setImages(placeholder);
-    console.log(images);
-
-    const addImageToState = (image) => {
-        //todo: add given image to images state
+    if(props.imageData.url === undefined){//this basically creates a "loading"
+        console.log("No data, returning");
+        return (
+            <div>Loading...</div>
+        )
     }
+
+    const addImageToState = (image) => {//a helper method to the state method
+        const placeholder = props.allImages;
+        placeholder.push(image);
+        console.log("Place holder: ", placeholder);
+        props.setAllImages(placeholder);
+    }
+    
+    //create an object the reactstrap carousel can use
+    const singleImage = {
+        src: props.imageData.url,
+        altText: props.imageData.title,
+        caption: props.imageData.explanation,
+    };
+    if(!props.allImages.includes(singleImage)) addImageToState(singleImage);
+    console.log("All images: ", props.allImages);
 
     //declare needed functions
     const next = () => {
         if (animating) return;
-        const nextIndex = activeIndex === images.length - 1 ? 0 : activeIndex + 1;//if we are at the end of the array, go back to the start
+        const nextIndex = activeIndex === props.allImages.length - 1 ? 0 : activeIndex + 1;//if we are at the end of the array, go back to the start
         setActiveIndex(nextIndex);
     }
     const previous = () => {
         if (animating) return;
-        const nextIndex = activeIndex === 0 ? images.length - 1 : activeIndex - 1;
+        const nextIndex = activeIndex === 0 ? props.allImages.length - 1 : activeIndex - 1;
         setActiveIndex(nextIndex);
     }
     const goToIndex = newIndex => {
@@ -48,34 +60,21 @@ export default function ImageCarousel(props) {
     }
 
     //convert images to a useable form- useable to reactstrap
-    // const slides = images.map(image => {
-    //     return (
-    //         <CarouselItem
-    //             onExiting={() => setAnimating(true)}
-    //             onExited={() => setAnimating(false)}
-    //             key={image.src}
-    //         >
-    //             <img src={image.src} alt={image.altText}/>
-    //             <CarouselCaption
-    //                 captionText={image.caption}
-    //                 captionHeader={image.caption}
-    //             />
-    //         </CarouselItem>
-    //     );
-    // });
-    const slides = (
-        <CarouselItem
-            onExiting={() => setAnimating(true)}
-            onExited={() => setAnimating(false)}
-            key={singleImage.src}
-        >
-            <img src={singleImage.src} alt={singleImage.altText}/>
-            <CarouselCaption
-                captionText={singleImage.caption}
-                captionHeader={singleImage.caption}
-            />
-        </CarouselItem>
-    )
+    const slides = props.allImages.map(image => {
+        return (
+            <CarouselItem
+                onExiting={() => setAnimating(true)}
+                onExited={() => setAnimating(false)}
+                key={image.src}
+            >
+                <StyledImg src={image.src} alt={image.altText}/>
+                <CarouselCaption
+                    captionText={image.caption}
+                    captionHeader={""}
+                />
+            </CarouselItem>
+        );
+    });
 
 
     return (
@@ -88,7 +87,7 @@ export default function ImageCarousel(props) {
                 previous={previous}
             >
                 <CarouselIndicators
-                    items={images}
+                    items={props.allImages}
                     activeIndex={activeIndex}
                     onClickHandler={goToIndex}
                 />

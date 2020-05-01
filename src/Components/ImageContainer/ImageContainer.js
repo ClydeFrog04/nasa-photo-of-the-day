@@ -1,8 +1,6 @@
 import React from 'react';
 import "./ImageContainer.css";
 
-import {Carousel} from "reactstrap";
-
 const ImageContainer = props => {
 
     return (

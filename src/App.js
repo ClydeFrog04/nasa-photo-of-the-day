@@ -14,8 +14,8 @@ function App() {
 
     const [data, setData] = useState({});
     const [date, setDate] = useState(now);
-    const [allImages, setAllImages] = useState({});
-    console.log(date);
+    const [allImages, setAllImages] = useState([]);
+
 
     useEffect(() => {
         axios.get(`https://api.nasa.gov/planetary/apod?api_key=5iNRyKec6ymBvSVBqVEre4Z4dEA9EMWe3HUMg5dg&date=${date}`)
@@ -27,8 +27,8 @@ function App() {
 
     return (
         <div className="App">
-            <ImageContainer imageData={data}/>
-            <ImageCarousel imageData={data} date={date}/>
+            {/*<ImageContainer imageData={data}/>*/}
+            <ImageCarousel imageData={data} allImages={allImages} setAllImages={setAllImages}/>
             <ControlContainer imageData={data} getDateString={getDateString} date={date} setDate={setDate}/>
         </div>
     );
